@@ -3,6 +3,10 @@ using EventManagementSystem.Dtos;
 using EventManagementSystem.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace EventManagementSystem.Controllers
 {
@@ -49,6 +53,58 @@ namespace EventManagementSystem.Controllers
             context.SaveChanges();
 
             return CreatedAtAction(nameof(GetAccount), new {Id = user.Id}, mapper.Map<User, UserDto>(user));
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public IActionResult Login(LoginDto loginDto)
+        {
+            var user = AuthenticateUser(loginDto);
+
+            if (user != null)
+            {
+                var token = GenerateToken(user);
+                return Ok(token);
+            }
+
+            return BadRequest(GenerateJsonErrorResponse("username", "The username or password is incorrect"));
+        }
+
+
+        private User AuthenticateUser(LoginDto loginCredentials)
+        {
+            var user = context.Users.SingleOrDefault(
+                u => u.Username.ToLower() == loginCredentials.Username.ToLower());
+
+            if (user == null)
+                return null;
+
+            if (BCrypt.Net.BCrypt.Verify(loginCredentials.Password, user.PasswordHash))
+                return user;
+
+            return null;
+        }
+
+
+        private string GenerateToken(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.GivenName, user.Username),
+            };
+
+            var token = new JwtSecurityToken(config["Jwt:Issuer"],
+              config["Jwt:Audience"],
+              claims,
+              expires: DateTime.Now.AddMinutes(Convert.ToDouble(config["Jwt:ValidForInMin"])),
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
