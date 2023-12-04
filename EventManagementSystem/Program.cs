@@ -1,3 +1,7 @@
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using System;
+using Microsoft.EntityFrameworkCore;
+
 namespace EventManagementSystem
 {
     public class Program
@@ -12,6 +16,8 @@ namespace EventManagementSystem
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<AppDbContext>(opt => opt
+                .UseMySQL(builder.Configuration.GetConnectionString("MySQL_Connection")));
 
             var app = builder.Build();
 
