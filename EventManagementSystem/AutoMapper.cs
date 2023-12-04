@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EventManagementSystem.Dtos;
+using EventManagementSystem.Models;
 
 namespace EventManagementSystem
 {
@@ -6,7 +8,9 @@ namespace EventManagementSystem
     {
         public AutoMapper()
         {
-
+            CreateMap<RegisterDto, User>();
+            CreateMap<LoginDto, User>();
+            CreateMap<User, UserDto>();
         }
     }
 }
