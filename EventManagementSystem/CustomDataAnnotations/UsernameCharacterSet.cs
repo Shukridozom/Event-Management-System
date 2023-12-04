@@ -9,9 +9,6 @@ namespace EventManagementSystem.CustomDataAnnotations
         {
             string username = value?.ToString() ?? string.Empty;
 
-            if (username.Length < 6)
-                return new ValidationResult("username must be at least 6 characters long");
-
             foreach (var character in username)
             {
                 if (!usernameCharacterSet.Contains(character))
