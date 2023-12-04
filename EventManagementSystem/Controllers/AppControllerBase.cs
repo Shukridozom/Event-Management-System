@@ -5,8 +5,6 @@ using System.Text.Json.Nodes;
 
 namespace EventManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class AppControllerBase : ControllerBase
     {
         protected readonly AppDbContext context;
