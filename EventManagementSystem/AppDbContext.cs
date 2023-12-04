@@ -8,6 +8,8 @@ namespace EventManagementSystem
     {
         private readonly IConfiguration _config;
 
+        public DbSet<User> Users { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration config)
             : base(options)
         {

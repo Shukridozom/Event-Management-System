@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231204143742_AddUsersTable")]
+    [Migration("20231204162106_AddUsersTable")]
     partial class AddUsersTable
     {
         /// <inheritdoc />
@@ -60,7 +60,7 @@ namespace EventManagementSystem.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
