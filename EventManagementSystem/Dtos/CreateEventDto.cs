@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EventManagementSystem.Dtos
 {
-    public class NewEventDto
+    public class CreateEventDto
     {
 
         [Required]

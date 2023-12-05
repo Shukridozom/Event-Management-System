@@ -12,7 +12,7 @@ namespace EventManagementSystem
             CreateMap<LoginDto, User>();
             CreateMap<User, UserDto>();
 
-            CreateMap<NewEventDto, Event>();
+            CreateMap<CreateEventDto, Event>();
             CreateMap<Event, EventDto>();
         }
     }
