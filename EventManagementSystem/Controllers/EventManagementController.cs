@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using EventManagementSystem.Dtos;
+using EventManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventManagementSystem.Controllers
 {
@@ -16,6 +18,34 @@ namespace EventManagementSystem.Controllers
         {
 
         }
+
+        [HttpGet]
+        [Route("/api/events/participants/{id}")]
+        public IActionResult GetEventParticipants(int id)
+        {
+            var eventFromDb = context.Events.Include(e => e.Participations).SingleOrDefault(e => e.Id == id);
+            var userId = GetUserId();
+            var participantsDto = new List<EventParticipantsDto>();
+
+            if (eventFromDb == null)
+                return NotFound();
+
+            if (eventFromDb.UserId != userId)
+                return NotFound();
+
+            foreach(var participation in eventFromDb.Participations)
+            {
+                participantsDto.Add(new EventParticipantsDto() 
+                {
+                    UserId = participation.UserId,
+                    NumberOfTickets = participation.NumOfTicket
+                });
+            }
+
+            return Ok(participantsDto);
+
+        }
+
 
         [HttpPut]
         [Route("/api/events/{id}")]
