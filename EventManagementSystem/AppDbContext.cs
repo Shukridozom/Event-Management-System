@@ -10,6 +10,7 @@ namespace EventManagementSystem
 
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Participation> Participations { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration config)
             : base(options)
@@ -58,6 +59,12 @@ namespace EventManagementSystem
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId);
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Participations)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
 
             // Event Entity:
@@ -83,6 +90,22 @@ namespace EventManagementSystem
             modelBuilder.Entity<Event>()
                 .Property(e => e.AvailableTickets)
                 .IsRequired();
+
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Participations)
+                .WithOne(p => p.Event)
+                .HasForeignKey(p => p.EventId);
+
+
+
+            // Participation Entity:
+            modelBuilder.Entity<Participation>()
+                .Property(p => p.NumOfTicket)
+                .IsRequired();
+
+            modelBuilder.Entity<Participation>()
+                .HasKey(p => new { p.EventId, p.UserId });
+
 
 
             base.OnModelCreating(modelBuilder);
