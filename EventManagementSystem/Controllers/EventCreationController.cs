@@ -20,7 +20,7 @@ namespace EventManagementSystem.Controllers
 
         [HttpPost]
         [Route("/api/events")]
-        public IActionResult Event(NewEventDto eventDto)
+        public IActionResult CreateEvent(NewEventDto eventDto)
         {
             var userId = GetUserId();
             var newEvent = mapper.Map<NewEventDto, Models.Event>(eventDto);
