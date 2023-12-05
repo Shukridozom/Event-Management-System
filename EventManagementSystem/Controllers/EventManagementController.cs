@@ -20,7 +20,7 @@ namespace EventManagementSystem.Controllers
         }
 
         [HttpGet]
-        [Route("/api/events/participants/{id}")]
+        [Route("/api/eventParticipants/{id}")]
         public IActionResult GetEventParticipants(int id)
         {
             var eventFromDb = context.Events.Include(e => e.Participations).SingleOrDefault(e => e.Id == id);
