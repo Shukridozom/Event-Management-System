@@ -22,6 +22,6 @@ namespace EventManagementSystem.Dtos
         public DateTime Date { get; set; }
 
         [Required]
-        public int AvailableTickets { get; set; }
+        public uint AvailableTickets { get; set; }
     }
 }
