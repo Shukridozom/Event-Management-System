@@ -21,7 +21,7 @@ namespace EventManagementSystem.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("/api/accounts/{id}")]
         public IActionResult GetAccount(int id)
         {
             var user = context.Users.SingleOrDefault(u => u.Id == id);
@@ -31,7 +31,7 @@ namespace EventManagementSystem.Controllers
             return Ok(mapper.Map<User, UserDto>(user));
         }
 
-        [HttpPost("register")]
+        [HttpPost("/api/register")]
         public IActionResult Register(RegisterDto userDto)
         {
 
@@ -56,7 +56,7 @@ namespace EventManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("/api/login")]
         public IActionResult Login(LoginDto loginDto)
         {
             var user = AuthenticateUser(loginDto);
