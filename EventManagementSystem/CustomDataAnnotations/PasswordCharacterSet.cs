@@ -9,9 +9,6 @@ namespace EventManagementSystem.CustomDataAnnotations
         {
             var password = value?.ToString() ?? string.Empty;
 
-            if (password.Length < 6)
-                return new ValidationResult("Password must be at least 6 characters long");
-
             foreach (var character in password)
             {
                 if (!passwordCharacterSet.Contains(character))

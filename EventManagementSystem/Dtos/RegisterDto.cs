@@ -18,11 +18,10 @@ namespace EventManagementSystem.Dtos
 
         [Required]
         [MaxLength(16)]
+        [MinLength(6)]
         [PasswordCharacterSet]
         public string Password { get; set; }
 
-        [Required]
-        [MaxLength(16)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
