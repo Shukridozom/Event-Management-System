@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using EventManagementSystem.Dtos;
+using EventManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -30,7 +32,7 @@ namespace EventManagementSystem.Controllers
 
             context.SaveChanges();
 
-            return Ok();
+            return Created(Request.GetDisplayUrl() + $"/{newEvent.Id}", mapper.Map<Event, EventDto>(newEvent));
         }
     }
 }
