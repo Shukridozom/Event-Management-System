@@ -1,6 +1,5 @@
 ﻿using EventManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace EventManagementSystem
 {
