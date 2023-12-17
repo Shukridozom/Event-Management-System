@@ -1,4 +1,3 @@
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,8 +44,13 @@ namespace EventManagementSystem
                     }
                 });
             });
-            builder.Services.AddDbContext<AppDbContext>(opt => opt
-                .UseMySQL(builder.Configuration.GetConnectionString("MySQL_Connection")));
+            builder.Services.AddDbContext<AppDbContext>(opt =>
+            {
+                var folder = Environment.SpecialFolder.LocalApplicationData;
+                var path = Environment.GetFolderPath(folder);
+                var DbPath = System.IO.Path.Join(path, "EventManagenetSystem.db");
+                opt.UseSqlite($"Data Source={DbPath}");
+            });
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
