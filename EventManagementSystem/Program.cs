@@ -44,13 +44,8 @@ namespace EventManagementSystem
                     }
                 });
             });
-            builder.Services.AddDbContext<AppDbContext>(opt =>
-            {
-                var folder = Environment.SpecialFolder.LocalApplicationData;
-                var path = Environment.GetFolderPath(folder);
-                var DbPath = System.IO.Path.Join(path, "EventManagenetSystem.db");
-                opt.UseSqlite($"Data Source={DbPath}");
-            });
+            builder.Services.AddDbContext<AppDbContext>(opt => opt
+                .UseSqlite(builder.Configuration.GetConnectionString("SQLitePath")));
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
