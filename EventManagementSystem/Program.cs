@@ -66,14 +66,14 @@ namespace EventManagementSystem
 
             var app = builder.Build();
 
+            app.UseHttpsRedirection();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
