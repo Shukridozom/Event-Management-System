@@ -17,8 +17,7 @@ Before users can create or book events, they have to register. The registration 
 The project requires the following:
 
 - .NET6 Runtime
-- MySQL database server
-
+- MySQL database server [ **This is not a requirement if you are on branch <ins>SQLite</ins>**&nbsp;]
 
 ## Getting Started
 
@@ -27,13 +26,15 @@ To get started with the project, follow these steps:
 1. Clone the repository to your local machine.
 2. Open the solution file in Visual Studio.
 3. Build the solution to restore the NuGet packages.
-4. Configure the connection string in **appsettings.json** file & create the database using **update-database** command in Package Manager Console.
-5. Run the application.
+4. Configure the connection string in **appsettings.json** file [ **This step is not required if you are on branch <ins>SQLite</ins>**&nbsp;]
+5. Create (or update) the database by executing **update-database** command in Package Manager Console.
+6. Run the application.
 
 ## Notes
 
 - You can test the application and review the APIs at the following URL: `/swagger/index.html`
 - The project uses JWT Authentication schema.
 
-## 
+##
+
 I hope this helps you. Let me know if you have any other questions!
