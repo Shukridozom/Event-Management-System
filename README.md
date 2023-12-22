@@ -35,5 +35,5 @@ To get started with the project, follow these steps:
 - You can test the application and review the APIs at the following URL: `/swagger/index.html`
 - The project uses JWT Authentication schema.
 
-\
+## 
 I hope this helps you. Let me know if you have any other questions!
