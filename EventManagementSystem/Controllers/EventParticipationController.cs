@@ -21,9 +21,15 @@ namespace EventManagementSystem.Controllers
 
         [HttpGet]
         [Route("/api/events")]
-        public IActionResult GetEvents()
+        public IActionResult GetEvents([FromQuery]PaginationDto pagination)
         {
-            var events = context.Events.ToList();
+            var events = context.Events
+                .Skip((pagination.PageIndex - 1) * pagination.PageLength)
+                .Take(pagination.PageLength)
+                .ToList();
+
+            var eventsCount = context.Events.Count();
+
             var eventDtos = new List<EventDto>();
 
             if (events == null)
@@ -32,7 +38,7 @@ namespace EventManagementSystem.Controllers
             foreach(var _event in events)
                 eventDtos.Add(mapper.Map<Models.Event, EventDto>(_event));
 
-            return Ok(eventDtos);
+            return Ok(PaginatedList(pagination, eventsCount, eventDtos));
         }
 
         [HttpGet]

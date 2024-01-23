@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EventManagementSystem.Dtos;
 using EventManagementSystem.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,21 @@ namespace EventManagementSystem.Controllers
             var userClaims = identity.Claims;
 
             return Convert.ToInt32(userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value);
+        }
+
+        protected object PaginatedList<T>(PaginationDto pagination, int totalCount, IEnumerable<T> data) where T : class
+        {
+            if (pagination == null)
+                return data;
+
+            return new
+            {
+                PageIndex = pagination.PageIndex,
+                PageLength = pagination.PageLength,
+                TotalCount = totalCount,
+                Data = data
+            };
+
         }
     }
 }
