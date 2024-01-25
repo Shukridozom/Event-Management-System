@@ -31,7 +31,8 @@ namespace EventManagementSystem.Controllers
                 return NotFound();
 
             if (eventFromDb.UserId != userId)
-                return NotFound();
+                return Unauthorized("Only the event owner can view details about participants");
+
 
             var participantsFromDb = context.Participations
                 .Where(p => p.EventId == id)
@@ -66,7 +67,8 @@ namespace EventManagementSystem.Controllers
                 return NotFound();
 
             if (eventFromDb.UserId != userId)
-                return NotFound();
+                return Unauthorized("Only the event owner can view details about participants");
+
 
             mapper.Map(eventDto, eventFromDb);
 
@@ -85,7 +87,7 @@ namespace EventManagementSystem.Controllers
                 return NotFound();
 
             if (eventFromDb.UserId != userId)
-                return NotFound();
+                return Unauthorized("Only the event owner can view details about participants");
 
             context.Events.Remove(eventFromDb);
             context.SaveChanges();
