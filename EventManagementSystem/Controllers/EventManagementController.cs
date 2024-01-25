@@ -21,9 +21,9 @@ namespace EventManagementSystem.Controllers
 
         [HttpGet]
         [Route("/api/eventParticipants/{id}")]
-        public IActionResult GetEventParticipants(int id)
+        public IActionResult GetEventParticipants(int id, [FromQuery]PaginationDto pagination)
         {
-            var eventFromDb = context.Events.Include(e => e.Participations).SingleOrDefault(e => e.Id == id);
+            var eventFromDb = context.Events.SingleOrDefault(e => e.Id == id);
             var userId = GetUserId();
             var participantsDto = new List<EventParticipantsDto>();
 
@@ -33,7 +33,15 @@ namespace EventManagementSystem.Controllers
             if (eventFromDb.UserId != userId)
                 return NotFound();
 
-            foreach(var participation in eventFromDb.Participations)
+            var participantsFromDb = context.Participations
+                .Where(p => p.EventId == id)
+                .Skip((pagination.PageIndex - 1) * pagination.PageLength)
+                .Take(pagination.PageLength)
+                .ToList();
+
+            var numberOfParticipants = context.Participations.Count(p => p.EventId == id);
+
+            foreach (var participation in participantsFromDb)
             {
                 participantsDto.Add(new EventParticipantsDto() 
                 {
@@ -42,7 +50,7 @@ namespace EventManagementSystem.Controllers
                 });
             }
 
-            return Ok(participantsDto);
+            return Ok(PaginatedList(pagination, numberOfParticipants, participantsDto));
 
         }
 
