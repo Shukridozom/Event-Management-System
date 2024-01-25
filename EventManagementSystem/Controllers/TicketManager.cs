@@ -18,7 +18,7 @@ namespace EventManagementSystem.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("/api/myTickets")]
         public IActionResult Get([FromQuery]PaginationDto pagination)
         {
             var participations = context.Participations
@@ -41,6 +41,26 @@ namespace EventManagementSystem.Controllers
             }
 
             return Ok(PaginatedList(pagination, numberOfParticipations, participationsDto));
+        }
+
+        [HttpPost]
+        [Route("/api/cancelParticipation/{eventId}")]
+        public IActionResult CancelBooking(int eventId)
+        {
+            var eventFromDb = context.Events.SingleOrDefault(e => e.Id == eventId);
+            var participation = context.Participations
+                .SingleOrDefault(p => p.UserId == GetUserId() && p.EventId == eventId);
+
+            if (participation == null)
+                return NotFound();
+
+            eventFromDb.AvailableTickets += (uint)participation.NumOfTicket;
+
+            context.Participations.Remove(participation);
+
+            context.SaveChanges();
+
+            return Ok();
         }
     }
 }

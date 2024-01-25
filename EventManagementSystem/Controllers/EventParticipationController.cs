@@ -96,26 +96,5 @@ namespace EventManagementSystem.Controllers
 
         }
 
-        [HttpPost]
-        [Route("/api/events/cancelBooking/{id}")]
-        public IActionResult CancelBooking(int id)
-        {
-            var userId = GetUserId();
-            var eventFromDb = context.Events.SingleOrDefault(e => e.Id == id);
-            var participation = context.Participations
-                .SingleOrDefault(p => p.UserId == userId && p.EventId == id);
-
-            if (participation == null)
-                return BadRequest(GenerateJsonErrorResponse("alert", "participation was not found"));
-
-            eventFromDb.AvailableTickets += (uint)participation.NumOfTicket;
-
-            context.Participations.Remove(participation);
-
-            context.SaveChanges();
-
-            return Ok();
-
-        }
     }
 }
