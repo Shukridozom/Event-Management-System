@@ -1,6 +1,6 @@
 # Event Management System
 
-The Event Management System is a web-based application that allows users to create, manage, and participate in events. This project was built using **ASP.NET Core** and provides a **RESTful APIs** for the frontend to interact with.
+The Event Management System is a web-based application that allows users to create, manage, and participate in events. This project was built using **ASP.NET Core** and provides **RESTful APIs** for the frontend to interact with.
 
 \
 Before users can create or book events, they have to register. The registration process collects necessary information such as name and email, and ensures the password is securely stored.
@@ -34,6 +34,7 @@ To get started with the project, follow these steps:
 
 - You can test the application and review the APIs at the following URL: `/swagger/index.html`
 - The project uses JWT Authentication schema.
+- You can check this [video](https://drive.google.com/file/d/1WqRILhpj80RHfU35vhWjaBcQgqpUDWcc/view?usp=drive_link) which demonstrates a quick start guide for using the application.
 
 ##
 
